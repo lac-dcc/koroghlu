@@ -1,7 +1,7 @@
 version: "3"
 services:
-  docker-artifact:
-    container_name: docker-artifact-arm
+  koroghlu:
+    container_name: koroghlu-arm
     entrypoint: "/run.sh"
     logging:
       driver: local
