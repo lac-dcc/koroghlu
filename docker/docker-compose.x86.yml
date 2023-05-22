@@ -1,0 +1,14 @@
+version: "3"
+services:
+  koroghlu:
+    container_name: koroghlu-x86
+    entrypoint: "/run.sh"
+    logging:
+      driver: local
+    build:
+      context: .
+      dockerfile: Dockerfile.x86
+    volumes:
+      - ./Volume:${VOLUME}
+
+

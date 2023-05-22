@@ -1,0 +1,14 @@
+version: "3"
+services:
+  docker-artifact:
+    container_name: docker-artifact-cuda
+    entrypoint: "/run.sh"
+    logging:
+      driver: local
+    build:
+      context: .
+      dockerfile: Dockerfile.cuda
+    volumes:
+      - ./Volume:${VOLUME}
+
+

@@ -1,0 +1,5 @@
+Turning,time(ms),std(ms),Space search(s),tile_i,tile_j,tile_k,order
+GridSearchTuner,0.3804,0.0039,885.71,96,1,16,ijk
+RandomTuner,0.0523,0.0005,1129.34,16,1,64,jki
+GATuner,0.0499,0.0001,1072.89,1,128,32,jki
+XGBTuner,0.0489,0.0010,575.79,1,112,80,jki
