@@ -37,6 +37,6 @@ if "__main__" == __name__:
 
     axes[1].bar(x_label, y2, width, color=colors)
     axes[1].set_ylabel(colunm_names[3])
-    axes[1].set_xlabel("Turning models")
+    axes[1].set_xlabel("Models")
     
     plt.savefig('./results/%s_turning.pdf' % name)
