@@ -13,3 +13,4 @@ else
     python3 src/plot_figure.py $RESULTS $ARCH
 
     echo "done!"
+fi
