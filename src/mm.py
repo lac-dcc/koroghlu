@@ -111,6 +111,8 @@ if __name__ == "__main__":
 
     for t in tool:
 
+        print("Executing model %s..." %(t))
+
         save_log = "results/%s_%s_mm.log" % (arch, t)
 
         if os.path.isfile(save_log):
@@ -170,10 +172,13 @@ if __name__ == "__main__":
 
         best_avg, best_std, best_cfg = get_best_time(save_log)
 
-        print("%s,%.4f,%.4f,%.2f" % (t, eval.mean, eval.std, end-start), end="")
+        f = open("results/results.csv", "a")
+        f.write("%s,%.4f,%.4f,%.2f" % (t, eval.mean, eval.std, end-start))
 
         for i in range(len(best_cfg)):
             if i == len(best_cfg)-1:
-                print(",%s" %(map_order[best_cfg[i][-1]]))
+                f.write(",%s" %(map_order[best_cfg[i][-1]]))
             else:
-                print(",%s" % (best_cfg[i][-1]), end="")
+                f.write(",%s" % (best_cfg[i][-1]))
+        f.write("\n")
+        f.close()
