@@ -62,7 +62,7 @@ def matmul(N, L, M, search_space, target="llvm", dtype="float"):
     y0, y1 = s[C].split(y, cfg["tile_j"].val)
     k0, k1 = s[C].split(k, cfg["tile_k"].val)
 
-    cfg.define_knob("order", [0, 1, 2, 3, 4, 5])
+    cfg.define_knob("order", [0, 1, 2, 3])
 
     if cfg["order"].val == 0: # "ijk"
         s[C].reorder(x0, x1, y0, y1, k0, k1)
@@ -72,10 +72,6 @@ def matmul(N, L, M, search_space, target="llvm", dtype="float"):
         s[C].reorder(y0, y1, x0, x1, k0, k1)
     elif cfg["order"].val == 3: # "jki"
         s[C].reorder(y0, y1, k0, k1, x0, x1)
-    elif cfg["order"].val == 4: # "kij"
-        s[C].reorder(k0, k1, x0, x1, y0, y1)
-    elif cfg["order"].val == 5: # "kji"
-        s[C].reorder(k0, k1, y0, y1, x0, x1)
 
     if target == "cuda":
         # Bind GPU thread indices
@@ -130,7 +126,7 @@ if __name__ == "__main__":
 
         start = time.time()
         with tvm.transform.PassContext(opt_level=3):
-            n_trial = 200
+            n_trial = 10
             if t == "GridSearchTuner":
                 tuner = autotvm.tuner.GridSearchTuner(task)
             elif t == "RandomTuner":
@@ -140,11 +136,14 @@ if __name__ == "__main__":
             elif t == "XGBTuner":
                 tuner = autotvm.tuner.XGBTuner(task, loss_type="rank")
 
-            tuner.tune(
-                n_trial=n_trial,
-                measure_option=measure_option,
-                callbacks=[autotvm.callback.log_to_file(save_log)],
-            )
+            try:
+                tuner.tune(
+                    n_trial=n_trial,
+                    measure_option=measure_option,
+                    callbacks=[autotvm.callback.log_to_file(save_log)],
+                )
+            except:
+                continue
         end = time.time()
 
         # inspect the best config
@@ -166,8 +165,6 @@ if __name__ == "__main__":
 
         tvm.testing.assert_allclose(c_np, c_tvm.numpy(), rtol=1e-4)
 
-        # Evaluate running time. Here we choose a large repeat number (400) to reduce the noise
-        # and the overhead of kernel launch. You can also use nvprof to validate the result.
         evaluator = func.time_evaluator(func.entry_name, dev, number=10, repeat=3)
         eval = evaluator(a_tvm, b_tvm, c_tvm)
 
