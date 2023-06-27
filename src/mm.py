@@ -85,7 +85,7 @@ def matmul(N, L, M, search_space, target="llvm", dtype="float"):
 if __name__ == "__main__":
 
     N, L, M = 900, 800, 700
-    search_space = [1] + [i for i in range(16,129,16)]
+    search_space = [1] + [i for i in range(16,97,16)]
 
     if len(sys.argv) > 1:
         arch = sys.argv[1]
