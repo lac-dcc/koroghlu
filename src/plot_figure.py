@@ -33,10 +33,9 @@ if "__main__" == __name__:
 
     width = 0.3
     axes[0].bar(x_label, y1, width, color=colors)
-    axes[0].set_ylabel(colunm_names[1])
+    axes[0].set_ylabel("Model Running Time (ms)")
 
     axes[1].bar(x_label, y2, width, color=colors)
-    axes[1].set_ylabel(colunm_names[3])
-    axes[1].set_xlabel("Models")
+    axes[1].set_ylabel("Auto-tuning time (s)")
     
     plt.savefig('./results/%s_turning.pdf' % name)
