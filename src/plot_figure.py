@@ -38,4 +38,4 @@ if "__main__" == __name__:
     axes[1].bar(x_label, y2, width, color=colors)
     axes[1].set_ylabel("Auto-tuning time (s)")
     
-    plt.savefig('./results/%s_turning.pdf' % name)
+    plt.savefig('./results/%s_tuning.pdf' % name)
